@@ -77,30 +77,30 @@
                     
                     <!-- 导航链接 -->
                     <nav class="flex space-x-1">
-    <!-- 标签管理下拉菜单 -->
-    <div class="relative group">
-        <a href="标签生产.html" class="flex items-center h-16 px-2 text-primary font-medium border-b-2 border-primary">
-            <span>标签管理</span>
-            <i class="fa fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
-        </a>
-        <!-- 下拉子菜单 - 修复z-index和样式 -->
-        <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-            <div class="py-1">
-                <a href="标签生产.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签生产</a>
-                <a href="标签查询.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签查询</a>
-            </div>
-        </div>
-    </div>
-    <a href="用户分群.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
-        <span>用户分群</span>
-    </a>
-    <a href="洞察分析.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
-        <span>洞察分析</span>
-    </a>
-    <a href="平台管理.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
-        <span>平台管理</span>
-    </a>
-</nav>
+                        <!-- 标签管理下拉菜单 -->
+                        <div class="relative group">
+                            <a href="标签生产.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+                                <span>标签管理</span>
+                                <i class="fa fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+                            </a>
+                            <!-- 下拉子菜单 -->
+                            <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                                <div class="py-1">
+                                    <a href="标签生产.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签生产</a>
+                                    <a href="标签查询.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签查询</a>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="用户分群.html" class="flex items-center h-16 px-2 text-primary font-medium border-b-2 border-primary hover:text-primary transition-colors">
+                            <span>用户分群</span>
+                        </a>
+                        <a href="洞察分析.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+                            <span>洞察分析</span>
+                        </a>
+                        <a href="平台管理.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+                            <span>平台管理</span>
+                        </a>
+                    </nav>
                 </div>
             </div>
         </div>
@@ -582,94 +582,46 @@
             </div>
         </div>
     </main>
-
-    <!-- JavaScript -->
-    <script>
+   <script>
         // 全选/取消全选功能
         document.getElementById('select-all').addEventListener('change', function() {
             const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
             checkboxes.forEach(checkbox => {
                 checkbox.checked = this.checked;
             });
-            updateSelectedCount();
         });
         
-        // 监听单个复选框变化，更新已选数量
-        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', updateSelectedCount);
-        });
-        
-        // 更新已选中的数量
-        function updateSelectedCount() {
-            const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
-            document.querySelector('.text-xs.text-gray-700 .font-medium').textContent = selectedCount;
-        }
-        
-        // 实现分页逻辑（示例）
-        document.querySelectorAll('nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                // 移除所有页码的选中状态
-                document.querySelectorAll('nav a:not(.rounded-l-md):not(.rounded-r-md)').forEach(a => {
-                    a.classList.remove('bg-primary', 'text-white');
-                    a.classList.add('bg-white', 'text-gray-700');
-                });
-                // 设置当前页码为选中状态
-                if (!this.classList.contains('rounded-l-md') && !this.classList.contains('rounded-r-md')) {
-                    this.classList.remove('bg-white', 'text-gray-700');
-                    this.classList.add('bg-primary', 'text-white');
-                }
-                // 这里可以添加实际的分页加载逻辑
-            });
-        });
-        
-        // 处理批量操作按钮点击
-        document.querySelector('button:contains("批量启用")').addEventListener('click', function() {
+        // 修复不兼容的jQuery选择器
+        document.querySelectorAll('.flex.items-center.space-x-2 button')[0].addEventListener('click', function() {
             const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
             if (selectedCount > 0) {
-                alert(`批量启用 ${selectedCount} 个分群`);
+                alert(`批量启用 ${selectedCount} 个人群任务`);
                 // 实际操作逻辑
             } else {
-                alert('请先选择要启用的分群');
+                alert('请先选择要启用的个人群任务');
             }
         });
         
-        document.querySelector('button:contains("批量禁用")').addEventListener('click', function() {
+        document.querySelectorAll('.flex.items-center.space-x-2 button')[1].addEventListener('click', function() {
             const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
             if (selectedCount > 0) {
-                alert(`批量禁用 ${selectedCount} 个分群`);
+                alert(`批量禁用 ${selectedCount} 个人群任务`);
                 // 实际操作逻辑
             } else {
-                alert('请先选择要禁用的分群');
+                alert('请先选择要禁用的个人群任务');
             }
         });
         
-        document.querySelector('button:contains("批量删除")').addEventListener('click', function() {
+        document.querySelectorAll('.flex.items-center.space-x-2 button')[2].addEventListener('click', function() {
             const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
             if (selectedCount > 0) {
-                alert(`批量删除 ${selectedCount} 个分群`);
+                alert(`批量删除 ${selectedCount} 个人群任务`);
                 // 实际操作逻辑
             } else {
-                alert('请先选择要删除的分群');
+                alert('请先选择要删除的个人群任务');
             }
-        });
-        
-        // 全部和我的创建切换按钮逻辑
-        document.getElementById('btn-all').addEventListener('click', function() {
-            this.classList.remove('bg-white', 'text-gray-700');
-            this.classList.add('bg-primary', 'text-white');
-            document.getElementById('btn-mine').classList.remove('bg-primary', 'text-white');
-            document.getElementById('btn-mine').classList.add('bg-white', 'text-gray-700');
-            // 这里可以添加实际的筛选逻辑
-        });
-        
-        document.getElementById('btn-mine').addEventListener('click', function() {
-            this.classList.remove('bg-white', 'text-gray-700');
-            this.classList.add('bg-primary', 'text-white');
-            document.getElementById('btn-all').classList.remove('bg-primary', 'text-white');
-            document.getElementById('btn-all').classList.add('bg-white', 'text-gray-700');
-            // 这里可以添加实际的筛选逻辑
         });
     </script>
+    
 </body>
 </html>

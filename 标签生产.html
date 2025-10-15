@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户画像平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                        info: '#3B82F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            .hover-row:hover {
+                background-color: #f9fafb;
+            }
+            .table-shadow {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            }
+            .table-sm td,
+            .table-sm th {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .table-container {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            .form-sm label,
+            .form-sm select,
+            .form-sm input {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo、标题和导航链接 -->
+                <div class="flex items-center space-x-8">
+                    <!-- Logo图标和标题 -->
+                    <div class="flex items-center">
+                        <!-- Logo图标 -->
+                        <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center mr-3">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-800">用户画像平台</h1>
+                    </div>
+                    
+                   <!-- 导航链接 -->
+<nav class="flex space-x-1">
+    <!-- 标签管理下拉菜单 -->
+    <div class="relative group">
+        <a href="标签生产.html" class="flex items-center h-16 px-2 text-primary font-medium border-b-2 border-primary">
+            <span>标签管理</span>
+            <i class="fa fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+        </a>
+        <!-- 下拉子菜单 - 修复z-index和样式 -->
+        <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+            <div class="py-1">
+                <a href="标签生产.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签生产</a>
+                <a href="标签查询.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签查询</a>
+            </div>
+        </div>
+    </div>
+    <a href="用户分群.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>用户分群</span>
+    </a>
+    <a href="洞察分析.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>洞察分析</span>
+    </a>
+    <a href="平台管理.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>平台管理</span>
+    </a>
+</nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 页面标题 -->
+        <div class="mb-6">
+            <h2 class="text-lg font-semibold text-gray-800">标签生产</h2>
+        </div>
+
+        <!-- 筛选条件区域 -->
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 form-sm">
+                <!-- 标签主体 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">标签主体</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <option value="student">学生</option>
+                        <option value="teacher">教师</option>
+                        <option value="parent">家长</option>
+                    </select>
+                </div>
+                
+                <!-- 业务归属 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">业务归属</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <option value="public">公共</option>
+                        <option value="private">私有</option>
+                    </select>
+                </div>
+                
+                <!-- 标签分类 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">标签分类</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <option value="">选择二级分类</option>
+                        <option value="basic">基础信息</option>
+                        <option value="behavior">行为数据</option>
+                    </select>
+                </div>
+                
+                <!-- 计算状态 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">计算状态</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <option value="">选择计算任务状态</option>
+                        <option value="success">成功</option>
+                        <option value="failed">失败</option>
+                        <option value="calculating">计算中</option>
+                        <option value="pending">待计算</option>
+                    </select>
+                </div>
+                
+                <!-- 标签状态 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">标签状态</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <option value="">选择标签状态</option>
+                        <option value="online">已上线</option>
+                        <option value="offline">已下线</option>
+                        <option value="pending">待审批</option>
+                    </select>
+                </div>
+                
+                <!-- 安全级别 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">安全级别</label>
+                    <select class="w-full p-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <option value="">选择安全级别</option>
+                        <option value="L1-N">L1-N</option>
+                        <option value="L3-S3">L3-S3</option>
+                        <option value="L2-S2">L2-S2</option>
+                    </select>
+                </div>
+                
+                <!-- 搜索框 - 调整为与筛选框对齐 -->
+                <div>
+                    <label class="block text-xs text-gray-600 mb-1">搜索</label>
+                    <div class="relative">
+                        <input type="text" placeholder="输入标签名搜索" class="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 text-xs">
+                        <i class="fa fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 标签列表表格 -->
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden table-shadow">
+            <!-- 表格工具栏 -->
+            <div class="flex justify-between items-center px-4 py-3 border-b border-gray-200">
+                <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="select-all" class="w-4 h-4 text-primary border-gray-300 rounded focus:ring-primary">
+                    <label for="select-all" class="text-xs text-gray-600">全选</label>
+                    <button class="px-3 py-1.5 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                        批量上线
+                    </button>
+                    <button class="px-3 py-1.5 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                        批量下线
+                    </button>
+                    <button class="px-3 py-1.5 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                        批量授权
+                    </button>
+                </div>
+                <div>
+                    <a href="新建标签.html" class="px-4 py-2 bg-primary text-white rounded-md hover:bg-primary/90 transition-colors whitespace-nowrap text-xs inline-block">
+                        新建标签
+                    </a>
+                </div>
+            </div>
+            
+            <!-- 表格内容 - 修改为不使用横向滚动条 -->
+            <div class="table-container">
+                <table class="min-w-full divide-y divide-gray-200 table-sm">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider w-8"></th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">标签ID</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">标签名</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">标签分类</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">业务归属</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">安全级别</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">覆盖情况</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">更新方式</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">计算状态</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">计算时间</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">标签状态</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">标签类型</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">值类型</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">创建方式</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">创建者</th>
+                            <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- 标签行1 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">122</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">姓名</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">基础信息/人口统计</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">用户中心</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L1-N</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                142,342<br>
+                                <span class="text-gray-500">(100%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每天/10:00</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-green-100 text-green-800">成功</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:33:44</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800">已上线</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">事实标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">字符串</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">shzhou45</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行2 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">132</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">入学年级</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">在校信息/个人信息</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">学习机构</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L3-S3</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                2,945<br>
+                                <span class="text-gray-500">(8.33%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每周一/9:30</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-red-100 text-red-800">失败</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">—</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-gray-100 text-gray-800">已下线</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">规则标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">数值</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行3 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">234</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">学习阶段</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">在校信息/班级信息</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">研究院</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L1-S3</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                4,235<br>
+                                <span class="text-gray-500">(9.5%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每月/1月6:00</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-yellow-100 text-yellow-800">计算中</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 13:32:41</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-purple-100 text-purple-800">审核中</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">规则标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">日期</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行4 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">265</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">最近一次考试排名</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">学习能力/学业评价</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">公共</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L2-S2</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                344<br>
+                                <span class="text-gray-500">(1.12%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">手动</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800">待计算</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">—</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-gray-100 text-gray-800">—</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">布尔</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                         <!-- 标签行1 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">122</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">姓名</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">基础信息/人口统计</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">用户中心</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L1-N</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                142,342<br>
+                                <span class="text-gray-500">(100%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每天/10:00</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-green-100 text-green-800">成功</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:33:44</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800">已上线</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">事实标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">字符串</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">shzhou45</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行2 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">132</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">入学年级</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">在校信息/个人信息</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">学习机构</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L3-S3</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                2,945<br>
+                                <span class="text-gray-500">(8.33%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每周一/9:30</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-red-100 text-red-800">失败</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">—</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-gray-100 text-gray-800">已下线</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">规则标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">数值</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行3 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">234</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">学习阶段</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">在校信息/班级信息</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">研究院</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L1-S3</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                4,235<br>
+                                <span class="text-gray-500">(9.5%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每月/1月6:00</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-yellow-100 text-yellow-800">计算中</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 13:32:41</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-purple-100 text-purple-800">审核中</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">规则标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">日期</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行4 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">265</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">最近一次考试排名</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">学习能力/学业评价</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">公共</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L2-S2</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                344<br>
+                                <span class="text-gray-500">(1.12%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">手动</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800">待计算</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">—</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-gray-100 text-gray-800">—</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">布尔</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <!-- 标签行9 - 重复第1行 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">122</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">姓名</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">基础信息/人口统计</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">用户中心</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L1-N</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                142,342<br>
+                                <span class="text-gray-500">(100%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每天/10:00</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-green-100 text-green-800">成功</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:33:44</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800">已上线</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">事实标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">字符串</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">shzhou45</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <!-- 标签行10 - 重复第2行 -->
+                        <tr class="hover-row transition-all-300">
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <input type="checkbox" class="w-3 h-3 text-primary border-gray-300 rounded focus:ring-primary">
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">132</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-primary">入学年级</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">在校信息/个人信息</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">学习机构</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">L3-S3</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">
+                                2,945<br>
+                                <span class="text-gray-500">(8.33%)</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">每周一/9:30</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-red-100 text-red-800">失败</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">—</td>
+                            <td class="px-2 py-2 whitespace-nowrap">
+                                <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-gray-100 text-gray-800">已下线</span>
+                            </td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">规则标签</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">数值</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">SQL创建</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">bhsou4</td>
+                            <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                <div class="flex space-x-1">
+                                    <a href="标签查询.html" class="text-blue-500 hover:text-blue-700">详情</a>
+                                    <a href="#" class="text-green-500 hover:text-green-700">上线</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">编辑</a>
+                                    <a href="#" class="text-gray-500 hover:text-gray-700">授权</a>
+                                    <a href="#" class="text-red-500 hover:text-red-700">删除</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 分页控件 -->
+            <div class="px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                    <div>
+                        <p class="text-xs text-gray-700">
+                            已勾选 <span class="font-medium">0</span> 项
+                        </p>
+                    </div>
+                    <div class="flex-grow"></div> <!-- 移除这行 -->
+                    <div class="flex items-center space-x-4"> <!-- 调整这个div -->
+                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <a href="#" class="relative inline-flex items-center px-2 py-1 rounded-l-md border border-gray-300 bg-white text-xs font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">上一页</span>
+                                <i class="fa fa-chevron-left text-[10px]"></i>
+                            </a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-primary text-xs font-medium text-white">1</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">2</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">3</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">4</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">5</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">6</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">7</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">8</a>
+                            <a href="#" class="relative inline-flex items-center px-3 py-1 border border-gray-300 bg-white text-xs font-medium text-gray-700 hover:bg-gray-50">9</a>
+                            <a href="#" class="relative inline-flex items-center px-2 py-1 rounded-r-md border border-gray-300 bg-white text-xs font-medium text-gray-500 hover:bg-gray-50">
+                                <span class="sr-only">下一页</span>
+                                <i class="fa fa-chevron-right text-[10px]"></i>
+                            </a>
+                        </nav>
+                        <div class="flex items-center space-x-2">
+                            <span class="text-xs text-gray-500">10条/页</span>
+                            <select class="text-xs border border-gray-300 rounded-md">
+                                <option>10</option>
+                                <option>20</option>
+                                <option>50</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // 全选/取消全选功能
+        document.getElementById('select-all').addEventListener('change', function() {
+            const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = this.checked;
+            });
+            updateSelectedCount();
+        });
+        
+        // 监听单个复选框变化，更新已选数量
+        document.querySelectorAll('tbody input[type="checkbox"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateSelectedCount);
+        });
+        
+        // 更新已选中的数量
+        function updateSelectedCount() {
+            const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
+            document.querySelector('.text-xs.text-gray-700 .font-medium').textContent = selectedCount;
+        }
+        
+        // 实现分页逻辑（示例）
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // 移除所有页码的选中状态
+                document.querySelectorAll('nav a:not(.rounded-l-md):not(.rounded-r-md)').forEach(a => {
+                    a.classList.remove('bg-primary', 'text-white');
+                    a.classList.add('bg-white', 'text-gray-700');
+                });
+                // 设置当前页码为选中状态
+                if (!this.classList.contains('rounded-l-md') && !this.classList.contains('rounded-r-md')) {
+                    this.classList.remove('bg-white', 'text-gray-700');
+                    this.classList.add('bg-primary', 'text-white');
+                }
+                // 这里可以添加实际的分页加载逻辑
+            });
+        });
+        
+        // 处理批量操作按钮点击
+        document.querySelector('button:contains("批量上线")').addEventListener('click', function() {
+            const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
+            if (selectedCount > 0) {
+                alert(`批量上线 ${selectedCount} 个标签`);
+                // 实际操作逻辑
+            } else {
+                alert('请先选择要上线的标签');
+            }
+        });
+        
+        document.querySelector('button:contains("批量下线")').addEventListener('click', function() {
+            const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
+            if (selectedCount > 0) {
+                alert(`批量下线 ${selectedCount} 个标签`);
+                // 实际操作逻辑
+            } else {
+                alert('请先选择要下线的标签');
+            }
+        });
+        
+        document.querySelector('button:contains("批量授权")').addEventListener('click', function() {
+            const selectedCount = document.querySelectorAll('tbody input[type="checkbox"]:checked').length;
+            if (selectedCount > 0) {
+                alert(`批量授权 ${selectedCount} 个标签`);
+                // 实际操作逻辑
+            } else {
+                alert('请先选择要授权的标签');
+            }
+        });
+    </script>
+</body>
+</html>

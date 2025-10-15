@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人群详情 - 用户画像平台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                        info: '#3B82F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            .hover-row:hover {
+                background-color: #f9fafb;
+            }
+            .table-shadow {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            }
+            .table-sm td,
+            .table-sm th {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .table-container {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            .form-sm label,
+            .form-sm select,
+            .form-sm input {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo、标题和导航链接 -->
+                <div class="flex items-center space-x-8">
+                    <!-- Logo图标和标题 -->
+                    <div class="flex items-center">
+                        <!-- Logo图标 -->
+                        <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center mr-3">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-800">用户画像平台</h1>
+                    </div>
+                    
+                    <!-- 导航链接 -->
+                   <nav class="flex space-x-1">
+    <!-- 标签管理下拉菜单 -->
+    <div class="relative group">
+        <a href="标签生产.html" class="flex items-center h-16 px-2 text-primary font-medium border-b-2 border-primary">
+            <span>标签管理</span>
+            <i class="fa fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+        </a>
+        <!-- 下拉子菜单 - 修复z-index和样式 -->
+        <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+            <div class="py-1">
+                <a href="标签生产.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签生产</a>
+                <a href="标签查询.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签查询</a>
+            </div>
+        </div>
+    </div>
+    <a href="用户分群.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>用户分群</span>
+    </a>
+    <a href="洞察分析.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>洞察分析</span>
+    </a>
+    <a href="平台管理.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>平台管理</span>
+    </a>
+</nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 - 修改：减小上下内边距 -->
+    <main class="container mx-auto px-4 py-4">
+        <!-- 页面标题区域 - 修改：减小下边距 -->
+        <div class="flex items-center mb-4">
+            <a href="用户分群.html" class="p-2 text-gray-600 hover:text-primary transition-colors mr-2">
+                <i class="fa fa-arrow-left"></i>
+            </a>
+            <h2 class="text-lg font-semibold text-gray-800">人群详情</h2>
+        </div>
+
+        <!-- 人群详情区域 - 修改：编辑按钮移至右下角，减小下边距 -->
+        <div class="bg-white p-4 rounded-lg shadow-sm mb-4 relative">
+            <div class="flex justify-end items-start mb-3">
+                <!-- 原位置保留，以保持布局一致性 -->
+            </div>
+            
+            <!-- 右下角编辑按钮 -->
+            <div class="absolute bottom-4 right-4">
+                <button class="px-3 py-1.5 text-xs bg-primary text-white rounded-md hover:bg-primary/90 transition-colors">
+                    <i class="fa fa-pencil mr-1"></i>编辑
+                </button>
+            </div>
+            
+            <div class="border-b border-gray-200 pb-3 mb-3">
+                <div class="flex items-center mb-2">
+                    <span class="font-medium text-gray-900">近180天成绩变动人群</span>
+                    <span class="ml-2 px-2 py-0.5 text-xs bg-blue-100 text-blue-800 rounded-full">已上线</span>
+                    <span class="ml-2 px-2 py-0.5 text-xs bg-gray-100 text-gray-800 rounded-full">v3.1-验证</span>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 text-xs text-gray-600">
+                    <div>创建人：<span class="text-gray-900">bhzhou4</span></div>
+                    <div>创建时间：<span class="text-gray-900">2025-10-09 12:34:32</span></div>
+                    <div>更新人：<span class="text-gray-900">bhzhou4</span></div>
+                    <div>更新时间：<span class="text-gray-900">2025-10-09 12:34:32</span></div>
+                    <div>创建方式：<span class="text-gray-900">SQL创建</span></div>
+                    <div>更新方式：<span class="text-gray-900">例行/每天9点</span></div>
+                </div>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-2 text-xs text-gray-600 mt-2">
+                    <div>最近一次计算状态：<span class="text-green-600">已完成</span></div>
+                    <div>最近一次计算时间：<span class="text-gray-900">2025-10-09 12:34:32</span></div>
+                    <div>最近一次推送下载时间：<span class="text-gray-900">2025-10-09 12:34:32</span></div>
+                </div>
+            </div>
+            
+            <div class="mb-2">
+                <div class="text-xs font-medium text-gray-600 mb-1">人群描述</div>
+                <div class="text-xs text-gray-900">此标签应用场景：数据采集等营销详细说明</div>
+            </div>
+        </div>
+
+        <!-- 人群数据展示区域 - 修改：减小下边距 -->
+        <div class="bg-white p-4 rounded-lg shadow-sm">
+            <!-- 修改：减小标签页下边距 -->
+            <div class="flex border-b border-gray-200 mb-3">
+                <button class="h-10 px-4 text-primary border-b-2 border-primary text-sm font-medium">
+                    人群数量
+                </button>
+                <button class="h-10 px-4 text-gray-600 hover:text-primary transition-colors text-sm">
+                    分群工作流
+                </button>
+            </div>
+            
+            <!-- 人群数量趋势图表 - 修改：减小下边距 -->
+            <div class="mb-4">
+                <!-- 修改：减小标题区域下边距 -->
+                <div class="flex justify-between items-center mb-2">
+                    <!-- 修改：字体缩小 -->
+                    <h3 class="text-sm font-medium text-gray-800">人群数量趋势</h3>
+                    <div class="flex items-center space-x-2">
+                        <button class="px-2 py-1 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            清除选择日期
+                        </button>
+                        <div class="relative">
+                            <input type="text" placeholder="选择日期" class="px-2 py-1 text-xs border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 pr-6">
+                            <i class="fa fa-calendar absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图表容器 - 修改：减小图表高度 -->
+                <div class="h-52 w-full bg-white rounded-lg">
+                    <!-- 这里可以放置实际的图表，现在使用模拟图表 -->
+                    <div class="h-full flex items-end justify-between px-4 pb-4">
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 80px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-01</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 96px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-02</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 104px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-03</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 120px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-04</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 144px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-05</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 152px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-06</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 160px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-07</span>
+                        </div>
+                        <div class="flex flex-col items-center">
+                            <div class="w-12 bg-primary rounded-t-md" style="height: 168px;"></div>
+                            <span class="mt-2 text-xs text-gray-600">10-08</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 图表图例 - 修改：减小上边距 -->
+                <div class="flex justify-center mt-2 space-x-4">
+                    <div class="flex items-center">
+                        <div class="w-3 h-3 bg-primary rounded-full mr-1"></div>
+                        <span class="text-xs text-gray-600">覆盖人数</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 计算任务运行记录表 - 修改：进一步上移并缩小字体 -->
+            <div class="mt-2">
+                <!-- 修改：减小标题区域下边距 -->
+                <div class="flex justify-between items-center mb-2">
+                    <!-- 修改：字体缩小 -->
+                    <h3 class="text-sm font-medium text-gray-800">计算任务运行记录</h3>
+                    <div class="flex items-center space-x-2">
+                        <div class="relative">
+                            <input type="text" placeholder="2025-10-17" class="px-2 py-1 text-xs border border-gray-300 rounded-md focus:border-primary focus:ring focus:ring-primary/20 transition-all-300 pr-6">
+                            <i class="fa fa-calendar absolute right-2 top-1/2 transform -translate-y-1/2 text-gray-400 text-xs"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 table-sm">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">日期</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">状态</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">人群数量</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">覆盖率</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">开始时间</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">结束时间</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">耗时</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">下游使用次数</th>
+                                <th scope="col" class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <!-- 记录行1 -->
+                            <tr class="hover-row transition-all-300">
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-08</td>
+                                <td class="px-4 py-2 whitespace-nowrap">
+                                    <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-green-100 text-green-800">已完成</span>
+                                </td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">210</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">100%</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:32:23</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:32:23</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">89ms</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">推荐下载使用</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs">
+                                    <a href="#" class="text-blue-500 hover:text-blue-700">查看</a>
+                                </td>
+                            </tr>
+                            
+                            <!-- 记录行2 -->
+                            <tr class="hover-row transition-all-300">
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-07</td>
+                                <td class="px-4 py-2 whitespace-nowrap">
+                                    <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-red-100 text-red-800">失败</span>
+                                </td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">210</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">100%</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:32:23</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-09 14:32:23</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">89ms</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs text-gray-900">—</td>
+                                <td class="px-4 py-2 whitespace-nowrap text-xs">
+                                    <a href="#" class="text-blue-500 hover:text-blue-700">重新运行</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // 标签页切换功能
+        document.querySelectorAll('.flex.border-b button').forEach(button => {
+            button.addEventListener('click', function() {
+                // 移除所有标签页的选中状态
+                document.querySelectorAll('.flex.border-b button').forEach(btn => {
+                    btn.classList.remove('text-primary', 'border-b-2', 'border-primary', 'font-medium');
+                    btn.classList.add('text-gray-600');
+                });
+                // 设置当前标签页为选中状态
+                this.classList.remove('text-gray-600');
+                this.classList.add('text-primary', 'border-b-2', 'border-primary', 'font-medium');
+                // 这里可以添加实际的内容切换逻辑
+            });
+        });
+        
+        // 重新运行按钮点击事件
+        document.querySelector('a:contains("重新运行")').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('重新运行计算任务');
+            // 实际的重新运行逻辑
+        });
+    </script>
+</body>
+</html>

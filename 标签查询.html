@@ -1,0 +1,509 @@
+<!-- 添加缺失的DOCTYPE声明 -->
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户画像平台 - 标签管理</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                        info: '#3B82F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            .hover-row:hover {
+                background-color: #f9fafb;
+            }
+            .table-shadow {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            }
+            .table-sm td,
+            .table-sm th {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .table-container {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            .form-sm label,
+            .form-sm select,
+            .form-sm input {
+                font-size: 0.75rem;
+            }
+            .sidebar-link {
+                @apply flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors;
+            }
+            .sidebar-link.active {
+                @apply bg-blue-50 text-blue-700;
+            }
+            .filter-input {
+                @apply text-xs border border-gray-300 rounded-md p-1.5;
+            }
+            .compact-field-label {
+                @apply text-xs text-gray-600 mb-0.5;
+            }
+            .compact-field-value {
+                @apply text-xs text-gray-900;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo、标题和导航链接 -->
+                <div class="flex items-center space-x-8">
+                    <!-- Logo图标和标题 -->
+                    <div class="flex items-center">
+                        <!-- Logo图标 -->
+                        <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center mr-3">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-800">用户画像平台</h1>
+                    </div>
+                    
+                    <!-- 导航链接 -->
+                    <nav class="flex space-x-1">
+    <!-- 标签管理下拉菜单 -->
+    <div class="relative group">
+        <a href="标签生产.html" class="flex items-center h-16 px-2 text-primary font-medium border-b-2 border-primary">
+            <span>标签管理</span>
+            <i class="fa fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+        </a>
+        <!-- 下拉子菜单 - 修复z-index和样式 -->
+        <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+            <div class="py-1">
+                <a href="标签生产.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签生产</a>
+                <a href="标签查询.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签查询</a>
+            </div>
+        </div>
+    </div>
+    <a href="用户分群.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>用户分群</span>
+    </a>
+    <a href="洞察分析.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>洞察分析</span>
+    </a>
+    <a href="平台管理.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>平台管理</span>
+    </a>
+</nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6 flex">
+        <!-- 左侧菜单 -->
+        <div class="w-56 mr-6 shrink-0">
+            <!-- 选择标签主体 -->
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                <div class="mb-3">
+                    <label class="text-sm font-medium text-gray-700 block mb-1.5">选择标签主体</label>
+                    <select class="w-full text-sm border border-gray-300 rounded-md px-2 py-1.5 bg-white">
+                        <option value="student">学生</option>
+                        <option value="teacher">教师</option>
+                        <option value="parent">家长</option>
+                        <option value="store">门店</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="text-sm font-medium text-gray-700 block mb-1.5">选择业务归属</label>
+                    <select class="w-full text-sm border border-gray-300 rounded-md px-2 py-1.5 bg-white">
+                        <option value="learning_machine">学习机</option>
+                        <option value="user_center">用户中心</option>
+                        <option value="e_listening">E听说</option>
+                        <option value="public">公共</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- 搜索框 -->
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-4">
+                <div class="relative">
+                    <input type="text" placeholder="输入标签名称搜索" class="w-full text-sm border border-gray-300 rounded-md pl-9 pr-3 py-2">
+                    <i class="fa fa-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                </div>
+            </div>
+            
+            <!-- 菜单列表 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="px-3 py-2 border-b border-gray-200 bg-gray-50">
+                    <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider">基础信息</h3>
+                </div>
+                <div class="p-2">
+                    <a href="#" class="sidebar-link active" data-menu-item="basic">
+                        <i class="fa fa-id-card-o w-5 text-center mr-2"></i>
+                        <span>人口统计</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="name">
+                        <i class="fa fa-user-o w-5 text-center mr-2"></i>
+                        <span>姓名</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="gender">
+                        <i class="fa fa-venus-mars w-5 text-center mr-2"></i>
+                        <span>性别</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="school">
+                        <i class="fa fa-graduation-cap w-5 text-center mr-2"></i>
+                        <span>在校信息</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="personal">
+                        <i class="fa fa-file-text-o w-5 text-center mr-2"></i>
+                        <span>个人信息</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="enrollment">
+                        <i class="fa fa-calendar w-5 text-center mr-2"></i>
+                        <span>入学年级</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="course">
+                        <i class="fa fa-book w-5 text-center mr-2"></i>
+                        <span>选课类型</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="class">
+                        <i class="fa fa-users w-5 text-center mr-2"></i>
+                        <span>班级信息</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="school_info">
+                        <i class="fa fa-building-o w-5 text-center mr-2"></i>
+                        <span>学校信息</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="region">
+                        <i class="fa fa-map-marker w-5 text-center mr-2"></i>
+                        <span>学校地区</span>
+                    </a>
+                </div>
+                
+                <div class="px-3 py-2 border-b border-gray-200 bg-gray-50">
+                    <h3 class="text-xs font-medium text-gray-500 uppercase tracking-wider">学习行为</h3>
+                </div>
+                <div class="p-2">
+                    <a href="#" class="sidebar-link" data-menu-item="classroom">
+                        <i class="fa fa-refresh w-5 text-center mr-2"></i>
+                        <span>课堂环循</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="grades">
+                        <i class="fa fa-line-chart w-5 text-center mr-2"></i>
+                        <span>成绩信息</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="in_school">
+                        <i class="fa fa-graduation-cap w-5 text-center mr-2"></i>
+                        <span>校内学习</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右侧内容区 -->
+        <div class="flex-1">
+            <!-- 页面标题 -->
+            <h2 class="text-xl font-bold text-gray-800 mb-6">标签查询</h2>
+
+            <!-- 标签查询区域 -->
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="flex flex-col md:flex-row items-start md:items-start gap-4">
+                        <div class="w-full md:w-1/3">
+                            <div class="text-xs text-gray-600 mb-1">标签名称</div>
+                            <div class="text-base font-medium text-gray-900">近180天错题再练次数</div>
+                            <div class="flex items-center mt-2 text-xs text-gray-500 flex-wrap gap-2">
+                                <span class="inline-flex px-1.5 text-[10px] leading-4 font-semibold rounded-full bg-blue-100 text-blue-800">已上线</span>
+                                <span class="inline-flex px-1.5 text-[10px] leading-4 font-semibold rounded-full bg-purple-100 text-purple-800">L3-绝密</span>
+                                <span class="inline-flex px-1.5 text-[10px] leading-4 font-semibold rounded-full bg-green-100 text-green-800">用户中心</span>
+                            </div>
+                            <!-- 标签描述 -->
+                            <div class="mt-3 bg-gray-50 p-3 rounded-md text-sm text-gray-600">
+                                标签描述：此标签应用于场景，数据来源有详细说明
+                            </div>
+                        </div>
+                        <div class="w-full md:w-2/3 grid grid-cols-2 md:grid-cols-4 gap-2">
+                            <div>
+                                <div class="compact-field-label">创建方式</div>
+                                <div class="compact-field-value">SQL创建</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">更新方式</div>
+                                <div class="compact-field-value">例行/每天9点</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">创建时间</div>
+                                <div class="compact-field-value">2025-10-09 12:34:32</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">更新时间</div>
+                                <div class="compact-field-value">2025-10-09 12:34:32</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">创建人</div>
+                                <div class="compact-field-value">blahsu4</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">更新人</div>
+                                <div class="compact-field-value">blahsu4</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">最近一次计算状态</div>
+                                <div class="text-xs text-green-600">已完成</div>
+                            </div>
+                            <div>
+                                <div class="compact-field-label">最近一次计算时间</div>
+                                <div class="compact-field-value">2025-10-09 12:34:32</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-end items-center space-x-3 mt-2">
+                        <button class="px-3 py-1.5 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            <i class="fa fa-edit mr-1"></i>编辑
+                        </button>
+                        <button class="px-3 py-1.5 text-xs border border-gray-300 rounded-md hover:bg-gray-50 transition-colors">
+                            <i class="fa fa-key mr-1"></i>授权
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标签详情选项卡 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden table-shadow mb-6">
+                <!-- 选项卡导航 -->
+                <div class="flex border-b border-gray-200">
+                    <button class="px-4 py-3 text-sm font-medium text-primary border-b-2 border-primary">
+                        标签概览
+                    </button>
+                    <button class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                        标签分布
+                    </button>
+                    <button class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                        操作记录
+                    </button>
+                    <button class="px-4 py-3 text-sm font-medium text-gray-600 hover:text-primary transition-colors">
+                        使用详情
+                    </button>
+                </div>
+                
+                <!-- 选项卡内容 - 标签概览 -->
+                <div class="p-4">
+                    <!-- 历史覆盖情况图表 - 居中显示 -->
+                    <div class="mb-8">
+                        <h3 class="text-sm font-medium text-gray-700 mb-4">历史覆盖情况</h3>
+                        <div class="h-64 bg-white border border-gray-200 rounded-md">
+                            <!-- 这里使用简单的条形图模拟 -->
+                            <div class="px-4 py-6">
+                                <div class="flex items-end justify-center h-full gap-4">
+                                    <!-- 覆盖人数数据 -->
+                                    <div class="w-8">
+                                        <div class="h-32 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-01</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-36 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-02</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-36 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-03</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-36 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-04</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-48 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-05</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-48 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-06</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-48 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-07</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-56 bg-blue-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-08</div>
+                                    </div>
+                                    
+                                    <!-- 覆盖率数据 -->
+                                    <div class="w-8">
+                                        <div class="h-32 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-01</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-36 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-02</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-36 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-03</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-36 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-04</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-28 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-05</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-28 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-06</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-32 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-07</div>
+                                    </div>
+                                    <div class="w-8">
+                                        <div class="h-32 bg-green-500 rounded-t-md mb-1 mx-auto w-6"></div>
+                                        <div class="text-xs text-center">10-08</div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-center space-x-6 mt-4">
+                                    <div class="flex items-center">
+                                        <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                        <div class="text-xs text-gray-600">覆盖人数</div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                        <div class="text-xs text-gray-600">覆盖率</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 计算任务运行记录 - 与图例间隔多行 -->
+                    <div class="mt-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-sm font-medium text-gray-700">计算任务运行记录</h3>
+                            <div class="flex items-center">
+                                <input type="text" placeholder="2025-10-17" class="text-xs border border-gray-300 rounded-md p-1.5 mr-2">
+                                <button class="w-6 h-6 flex items-center justify-center text-gray-500">
+                                    <i class="fa fa-calendar"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200 table-sm">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">日期</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">状态</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">覆盖人数</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">覆盖率</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">开始时间</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">结束时间</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">耗时</th>
+                                        <th scope="col" class="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <!-- 记录行1 -->
+                                    <tr class="hover-row transition-all-300">
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-08</td>
+                                        <td class="px-2 py-2 whitespace-nowrap">
+                                            <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-green-100 text-green-800">已完成</span>
+                                        </td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">210</td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">100%</td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-08 19:43:23</td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-08 19:43:23</td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">89ms</td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                            <button class="text-blue-500 hover:text-blue-700">重新运行</button>
+                                        </td>
+                                    </tr>
+                                    
+                                    <!-- 记录行2 -->
+                                    <tr class="hover-row transition-all-300">
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-07</td>
+                                        <td class="px-2 py-2 whitespace-nowrap">
+                                            <span class="px-1.5 inline-flex text-[10px] leading-4 font-semibold rounded-full bg-red-100 text-red-800">失败</span>
+                                        </td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900"></td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900"></td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900">2025-10-07 19:43:23</td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900"></td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs text-gray-900"></td>
+                                        <td class="px-2 py-2 whitespace-nowrap text-xs">
+                                            <button class="text-blue-500 hover:text-blue-700">重新运行</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // 标签页切换逻辑
+        document.querySelectorAll('.flex.border-b button').forEach(button => {
+            button.addEventListener('click', function() {
+                // 移除所有标签页的选中状态
+                document.querySelectorAll('.flex.border-b button').forEach(btn => {
+                    btn.classList.remove('text-primary', 'border-b-2', 'border-primary');
+                    btn.classList.add('text-gray-600');
+                });
+                // 设置当前标签页为选中状态
+                this.classList.remove('text-gray-600');
+                this.classList.add('text-primary', 'border-b-2', 'border-primary');
+            });
+        });
+        
+        // 修复JavaScript中使用不标准选择器的问题
+        document.querySelectorAll('button').forEach(button => {
+            if (button.textContent.includes('重新运行')) {
+                button.addEventListener('click', function() {
+                    alert('重新运行计算任务');
+                });
+            }
+        });
+        
+        // 左侧菜单切换选中状态
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // 移除所有菜单项的选中状态
+                document.querySelectorAll('.sidebar-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                // 设置当前菜单项为选中状态
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

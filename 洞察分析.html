@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用户画像平台 - 洞察分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    
+    <!-- Tailwind CSS 配置 -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#10B981',
+                        danger: '#EF4444',
+                        warning: '#F59E0B',
+                        info: '#3B82F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <!-- 自定义工具类 -->
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .transition-all-300 {
+                transition: all 0.3s ease;
+            }
+            .hover-row:hover {
+                background-color: #f9fafb;
+            }
+            .table-shadow {
+                box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            }
+            .table-sm td,
+            .table-sm th {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.75rem;
+            }
+            .table-container {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            .form-sm label,
+            .form-sm select,
+            .form-sm input {
+                font-size: 0.75rem;
+            }
+            .sidebar-link {
+                @apply flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 rounded-md transition-colors;
+            }
+            .sidebar-link.active {
+                @apply bg-blue-50 text-blue-700;
+            }
+            .filter-input {
+                @apply text-xs border border-gray-300 rounded-md p-1.5;
+            }
+            .compact-field-label {
+                @apply text-xs text-gray-600 mb-0.5;
+            }
+            .compact-field-value {
+                @apply text-xs text-gray-900;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center h-16">
+                <!-- 左侧Logo、标题和导航链接 -->
+                <div class="flex items-center space-x-8">
+                    <!-- Logo图标和标题 -->
+                    <div class="flex items-center">
+                        <!-- Logo图标 -->
+                        <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center mr-3">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <h1 class="text-xl font-bold text-gray-800">用户画像平台</h1>
+                    </div>
+                    
+                    <!-- 导航链接 -->
+                    <nav class="flex space-x-1">
+    <!-- 标签管理下拉菜单 -->
+    <div class="relative group">
+        <a href="标签生产.html" class="flex items-center h-16 px-2 text-primary font-medium border-b-2 border-primary">
+            <span>标签管理</span>
+            <i class="fa fa-chevron-down ml-1 text-xs transition-transform group-hover:rotate-180"></i>
+        </a>
+        <!-- 下拉子菜单 - 修复z-index和样式 -->
+        <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+            <div class="py-1">
+                <a href="标签生产.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签生产</a>
+                <a href="标签查询.html" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100">标签查询</a>
+            </div>
+        </div>
+    </div>
+    <a href="用户分群.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>用户分群</span>
+    </a>
+    <a href="洞察分析.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>洞察分析</span>
+    </a>
+    <a href="平台管理.html" class="flex items-center h-16 px-2 text-gray-600 hover:text-primary transition-colors">
+        <span>平台管理</span>
+    </a>
+</nav>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主内容区 -->
+    <main class="container mx-auto px-4 py-6 flex">
+        <!-- 左侧菜单 -->
+        <div class="w-56 mr-6 shrink-0">
+            <!-- 菜单列表 -->
+            <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                <div class="p-2">
+                    <a href="#" class="sidebar-link" data-menu-item="asset-overview">
+                        <i class="fa fa-bar-chart w-5 text-center mr-2"></i>
+                        <span>资产概览</span>
+                    </a>
+                    <a href="#" class="sidebar-link active" data-menu-item="group-insight">
+                        <i class="fa fa-users w-5 text-center mr-2"></i>
+                        <span>群体洞察</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="individual-insight">
+                        <i class="fa fa-user w-5 text-center mr-2"></i>
+                        <span>个体洞察</span>
+                    </a>
+                    <a href="#" class="sidebar-link" data-menu-item="effect-analysis">
+                        <i class="fa fa-line-chart w-5 text-center mr-2"></i>
+                        <span>效果分析</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右侧内容区 -->
+        <div class="flex-1">
+            <!-- 页面标题 -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">店铺会员目标人群画像</h2>
+                <div class="flex space-x-2">
+                    <button class="text-sm text-gray-600 hover:text-primary flex items-center">
+                        <i class="fa fa-cog mr-1"></i> 操作
+                    </button>
+                    <button class="text-sm text-gray-600 hover:text-primary flex items-center">
+                        <i class="fa fa-copy mr-1"></i> 复制
+                    </button>
+                </div>
+            </div>
+
+            <!-- 面包屑和计算信息 -->
+            <div class="text-sm text-gray-500 mb-4">
+                <nav class="flex" aria-label="Breadcrumb">
+                    <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                        <li class="inline-flex items-center">
+                            <a href="用户画像平台.html" class="text-gray-900 hover:text-primary">首页</a>
+                        </li>
+                        <li class="inline-flex items-center">
+                            <i class="fa fa-angle-right text-gray-400 mx-2"></i>
+                            <a href="用户分群.html" class="text-gray-900 hover:text-primary">用户分群</a>
+                        </li>
+                        <li class="inline-flex items-center">
+                            <i class="fa fa-angle-right text-gray-400 mx-2"></i>
+                            <a href="#" class="text-gray-900 hover:text-primary">画像人群</a>
+                        </li>
+                        <li aria-current="page">
+                            <div class="flex items-center">
+                                <i class="fa fa-angle-right text-gray-400 mx-2"></i>
+                                <span class="text-gray-500">计算中 · 初始化 · 计算状态：就绪</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <span class="text-xs text-gray-500 ml-6">计算时间：2023-10-12 21:30 · 全量用户计算</span>
+            </div>
+
+            <!-- AI报告解读模块 -->
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+                <h3 class="text-base font-medium text-gray-800 mb-3">AI报告解读</h3>
+                <div class="space-y-3">
+                    <div class="p-3 border border-gray-200 rounded-md bg-blue-50">
+                        <div class="flex items-start">
+                            <i class="fa fa-lightbulb-o text-yellow-500 mt-0.5 mr-2"></i>
+                            <div>
+                                <div class="text-sm font-medium text-gray-800">学习成绩与学习时长呈正相关</div>
+                                <div class="text-xs text-gray-600 mt-1">数据显示，学习时长超过60分钟的学生，平均成绩比学习时长不足30分钟的学生高15%。</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 画像人群概览 -->
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-base font-medium text-gray-800">画像人群</h3>
+                    <button class="text-sm text-primary flex items-center">
+                        详情 <i class="fa fa-angle-right ml-1"></i>
+                    </button>
+                </div>
+                <div class="bg-blue-50 p-3 rounded-md">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm text-gray-600">店铺会员目标人群画像</span>
+                        <span class="text-xs text-gray-500">占全部用户: 6.1%</span>
+                    </div>
+                    <div class="text-xl font-bold text-gray-900">3,586 人</div>
+                </div>
+            </div>
+
+            <!-- 画像信息区域 -->
+            <div class="bg-white p-4 rounded-lg shadow-sm mb-6">
+                <h3 class="text-base font-medium text-gray-800 mb-4">画像信息</h3>
+                
+                <!-- 图表网格 -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <!-- 平台流量分布 -->
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">平台流量分布</h4>
+                        <div class="h-64">
+                            <!-- 条形图 - 平台流量分布 (修复比例显示) -->
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Instagram</span>
+                                        <span>225人 (6.0%)</span>
+                                    </div>
+                                    <div class="h-6 bg-blue-500 rounded-full" style="width: 6%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>合作伙伴</span>
+                                        <span>480人 (13.3%)</span>
+                                    </div>
+                                    <div class="h-6 bg-green-500 rounded-full" style="width: 13.3%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Facebook</span>
+                                        <span>202人 (5.6%)</span>
+                                    </div>
+                                    <div class="h-6 bg-gray-400 rounded-full" style="width: 5.6%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Google</span>
+                                        <span>217人 (6.0%)</span>
+                                    </div>
+                                    <div class="h-6 bg-yellow-500 rounded-full" style="width: 6%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Focusbook</span>
+                                        <span>200人 (5.6%)</span>
+                                    </div>
+                                    <div class="h-6 bg-purple-500 rounded-full" style="width: 5.6%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>Twitter</span>
+                                        <span>244人 (6.8%)</span>
+                                    </div>
+                                    <div class="h-6 bg-blue-300 rounded-full" style="width: 6.8%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex justify-center space-x-3">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                <span class="text-xs">Instagram</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                <span class="text-xs">合作伙伴</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
+                                <span class="text-xs">Facebook</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 性别分布 -->
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">性别</h4>
+                        <div class="h-64 flex items-center justify-center">
+                            <!-- 饼图 - 性别分布 (修复非标准属性问题) -->
+                            <div class="relative w-40 h-40">
+                                <svg viewBox="0 0 100 100" class="w-full h-full">
+                                    <circle cx="50" cy="50" r="40" fill="#e5e7eb" />  
+                                    <!-- 使用path元素代替非标准的start-angle和end-angle -->
+                                    <path d="M50,50 L50,10 A40,40 0 0,1 96,50 Z" fill="#3b82f6" /> 
+                                    <!-- 半透明圆环覆盖 -->
+                                    <circle cx="50" cy="50" r="25" fill="white" /> 
+                                </svg>
+                                <div class="absolute inset-0 flex items-center justify-center flex-col">
+                                    <div class="text-2xl font-bold">女</div>
+                                    <div class="text-sm text-gray-500">56.04%</div>
+                                </div>
+                                <div class="absolute inset-0 flex items-center justify-center flex-col transform translate-x-16">
+                                    <div class="text-2xl font-bold">男</div>
+                                    <div class="text-sm text-gray-500">43.96%</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex justify-center space-x-6">
+                            <!-- 修复数据不一致问题 -->
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                <span class="text-xs">女 (2,009人 56.04%)</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                <span class="text-xs">男 (1,577人 43.96%)</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 城市分布 -->
+                    <div class="border border-gray-200 rounded-lg p-3">
+                        <h4 class="text-sm font-medium text-gray-700 mb-3">城市</h4>
+                        <div class="h-64">
+                            <!-- 条形图 - 城市分布 (修复比例显示) -->
+                            <div class="space-y-3">
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>杭州</span>
+                                        <span>404人 (11.3%)</span>
+                                    </div>
+                                    <div class="h-6 bg-blue-500 rounded-full" style="width: 11.3%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>北京</span>
+                                        <span>568人 (15.8%)</span>
+                                    </div>
+                                    <div class="h-6 bg-green-500 rounded-full" style="width: 15.8%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>其他</span>
+                                        <span>604人 (16.8%)</span>
+                                    </div>
+                                    <div class="h-6 bg-gray-400 rounded-full" style="width: 16.8%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>石家庄</span>
+                                        <span>373人 (10.4%)</span>
+                                    </div>
+                                    <div class="h-6 bg-yellow-500 rounded-full" style="width: 10.4%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>深圳</span>
+                                        <span>600人 (16.7%)</span>
+                                    </div>
+                                    <div class="h-6 bg-purple-500 rounded-full" style="width: 16.7%"></div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-xs mb-1">
+                                        <span>上海</span>
+                                        <span>302人 (8.4%)</span>
+                                    </div>
+                                    <div class="h-6 bg-red-400 rounded-full" style="width: 8.4%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex justify-center space-x-3">
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-blue-500 rounded-full mr-1"></div>
+                                <span class="text-xs">杭州</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-green-500 rounded-full mr-1"></div>
+                                <span class="text-xs">北京</span>
+                            </div>
+                            <div class="flex items-center">
+                                <div class="w-3 h-3 bg-gray-400 rounded-full mr-1"></div>
+                                <span class="text-xs">其他</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript -->
+    <script>
+        // 左侧菜单切换选中状态
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                // 移除所有菜单项的选中状态
+                document.querySelectorAll('.sidebar-link').forEach(item => {
+                    item.classList.remove('active');
+                });
+                // 设置当前菜单项为选中状态
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
